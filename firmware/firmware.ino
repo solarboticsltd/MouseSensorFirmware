@@ -56,6 +56,25 @@ void setup() {
 
 void loop() {
 
+  if(state == 0)
+  {
+    triggeredPin = 0;
+    
+    for(int i = 0; i < sizeof(hole); i++)
+    {
+      if(digitalRead(hole[i]) == HIGH)
+      {
+        triggeredPin = hole[i];
+        state = 1;
+        break;
+      }
+    }
+  }
 
+  if(state == 1)
+  {
+   
+   while(digitalRead(triggeredPin) == HIGH && (millis() - hysteresisTimer 
+  }
   
 }
