@@ -58,6 +58,7 @@ void setup() {
   delay(2000);
 
   experimentStart = millis();
+  state = 1;
 }
 
 void loop() {
@@ -67,7 +68,7 @@ void loop() {
     state = 6;
   }
   
-  if(state == 1) //Scanning for an dip on one of the hole sensors
+  if(state == 1) //Scanning for a dip on one of the hole sensors
   { 
     for(int i = 0; i < sizeof(hole); i++)
     {
@@ -131,7 +132,7 @@ void loop() {
     state = 1;
   }
 
-  if(state == 6) //
+  if(state == 6) //Display the results of the experiment in the serial window.
   {
     Serial.println("The experiment has been completed!");
     Serial.println("");
