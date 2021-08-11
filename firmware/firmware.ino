@@ -48,7 +48,9 @@ void setup() {
     pinMode(hole[i], INPUT);
   }
 
-
+  //Set the pin assigned to the onboard LED as an output
+  pinMode(13, OUTPUT);
+  
   //Splash text for the serial connection
   Serial.println("Nicole Larsen - Hole Poke Experiment");
   Serial.println("");
@@ -129,7 +131,7 @@ void loop() {
     state = 1;
   }
 
-  if(state == 6)
+  if(state == 6) //
   {
     Serial.println("The experiment has been completed!");
     Serial.println("");
@@ -148,6 +150,15 @@ void loop() {
       }
       Serial.println("");
     }
+    state = 7;
+  }
+
+  if(state == 7) //Idle until reset (blink LED)
+  {
+    digitalWrite(13, HIGH);
+    delay(1000);
+    digitalWrite(13, LOW);
+    delay(1000);
   }
 
 }
