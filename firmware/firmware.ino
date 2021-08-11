@@ -52,6 +52,8 @@ void setup() {
   Serial.println("");
   Serial.println("Beginning Experiment");
   delay(2000);
+
+  experimentStart = millis();
 }
 
 void loop() {
