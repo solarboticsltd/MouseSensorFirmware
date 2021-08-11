@@ -3,9 +3,8 @@
 //*********************************
 const int EXPERIMENT_DURATION = 2;  //The amount of time taken before the experiement is concluded (Time in minutes)
 const int DIP_SEPERATION = 1000;    //The amount of time taken before a subsiquent dip can be detected (Time in milliseconds)
-const int DIP_HYSTERESIS = 500;     //The amount of time a sensor must be active/inactive before a dip is cosidered "dipping" or "stopped dipping" (Time in milliseconds)
+const int DIP_HYSTERESIS = 1000;     //The amount of time a sensor must be active/inactive before a dip is cosidered "dipping" or "stopped dipping" (Time in milliseconds)
 //*********************************
-
 
 
 
@@ -70,6 +69,7 @@ void setup() {
 
   experimentStart = millis();
   state = 1;
+  //Serial.println("State: " + String(state));
 }
 
 
@@ -78,23 +78,25 @@ void setup() {
 
 void loop() {
 
-  if((millis() - experimentStart) > (EXPERIMENT_DURATION * 60000))
+  if((millis() - experimentStart) > (EXPERIMENT_DURATION * 60000) && state != 7)
   {
     state = 6;
+    //Serial.println("State: " + String(state));
   }
 
 
   
   if(state == 1) //Scanning for a dip on one of the hole sensors
   { 
-    for(int i = 0; i < sizeof(hole); i++)
+    for(int i = 0; i < RECORD_ROWS; i++)
     {
       if(digitalRead(hole[i]) == HIGH)
       {
         triggeredHole = i;
         hysteresisStart = millis();
         state = 2;
-        Serial.println("Dip detected on pin: " + String(hole[triggeredHole]));
+        Serial.println("Dip detected on pin " + String(hole[triggeredHole]) + ", sensor " + String(triggeredHole));
+        //Serial.println("State: " + String(state));
         break;
       }
     }
@@ -106,12 +108,14 @@ void loop() {
   {
     if((digitalRead(hole[triggeredHole]) == HIGH) && (millis() - hysteresisStart > DIP_HYSTERESIS))
     {
-      dipStart = millis();
+      dipStart = millis() + DIP_HYSTERESIS;
       state = 3;
+      //Serial.println("State: " + String(state));
     }
     if(digitalRead(hole[triggeredHole]) == LOW)
     {
       state = 1;
+      //Serial.println("State: " + String(state));
     }
   }
   
@@ -120,6 +124,7 @@ void loop() {
     if(digitalRead(hole[triggeredHole]) == LOW)
     {
       state = 4;
+      //Serial.println("State: " + String(state));
       hysteresisStart = millis();
     }
   }
@@ -130,12 +135,14 @@ void loop() {
   {
     if((digitalRead(hole[triggeredHole]) == LOW) && (millis() - hysteresisStart > DIP_HYSTERESIS))
     {
-      dipEnd = millis();
+      dipEnd = millis() - DIP_HYSTERESIS;
       state = 5;
+      //Serial.println("State: " + String(state));
     }
     if(digitalRead(hole[triggeredHole]) == HIGH)
     {
       state = 3;
+      //Serial.println("State: " + String(state));
     }
   }
 
@@ -149,34 +156,39 @@ void loop() {
     dipRecords[triggeredHole][recordSlot] = dipDuration;
     dipRecords[triggeredHole][0] += 1;
     
-    Serial.println("Dip on pin: " + String(triggeredHole) + ", was " + String(dipDuration) + "mS long and saved in slot " + String(triggeredHole) + ", " + String(recordSlot));
+    Serial.println("Dip on pin: " + String(hole[triggeredHole]) + ", was " + String(dipDuration) + "mS long and saved in slot " + String(triggeredHole) + ", " + String(recordSlot));
 
     delay(DIP_SEPERATION);
     state = 1;
+    //Serial.println("State: " + String(state));
   }
 
 
 
   if(state == 6) //Display the results of the experiment in the serial window.
   {
+    delay(3000);
+    Serial.println("");
     Serial.println("The experiment has been completed!");
+    Serial.println("");
+    Serial.println("Results:");
     Serial.println("");
 
     for(int i = 0; i < RECORD_ROWS; i++)
     {
-      Serial.print("Sensor " + String(hole[triggeredHole]) + ", ");
+      Serial.print("Sensor " + String(hole[i]) + ", ");
       
-      for(int j = 0; j < RECORD_COLUMNS; j++)
+      for(int j = 1; j < RECORD_COLUMNS; j++)
       {
-        Serial.print(String(dipRecords[i][j]));
-        if(j < RECORD_COLUMNS - 1)
+        if(dipRecords[i][j] > 0)
         {
-           Serial.print(", ");
+          Serial.print(String(dipRecords[i][j]));
         }
       }
       Serial.println("");
     }
     state = 7;
+    //Serial.println("State: " + String(state));
   }
 
 
