@@ -121,7 +121,8 @@ void loop() {
     
     Serial.println("Dip on pin: " + String(triggeredHole) + ", was " + String(dipDuration) + "mS long and saved in slot " + String(triggeredHole) + ", " + String(recordSlot));
 
+    delay(DIP_SEPERATION);
     state = 1;
   }
-  
+
 }
