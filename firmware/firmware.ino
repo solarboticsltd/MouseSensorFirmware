@@ -1,18 +1,23 @@
 
-
-const int EXPERIMENT_DURATION = 20; //The amount of time taken before the experiement is concluded (Time in minutes)
+//Variables you can change
+//*********************************
+const int EXPERIMENT_DURATION = 2;  //The amount of time taken before the experiement is concluded (Time in minutes)
 const int DIP_SEPERATION = 1000;    //The amount of time taken before a subsiquent dip can be detected (Time in milliseconds)
-const int DIP_HYSTERESIS = 100;     //The amount of time a sensor must be active/inactive before a dip is cosidered "dipping" or "stopped dipping" (Time in milliseconds)
-const int RECORD_ROWS = 16;
-const int RECORD_COLUMNS = 50;
+const int DIP_HYSTERESIS = 500;     //The amount of time a sensor must be active/inactive before a dip is cosidered "dipping" or "stopped dipping" (Time in milliseconds)
+//*********************************
 
-unsigned long experimentStart = 0;      //When the Experiment began
-unsigned long dipStart = 0;             //When a dip began
-unsigned long dipEnd = 0;               //When a dip ended
-unsigned long hysteresisStart = 0;      //when a hysteresis check began
 
-int triggeredHole = 0;        //The pin that sensed a dip
-int state = 0;                //The current state of the state machine
+
+const int RECORD_ROWS = 16;         //The number of rows of the data table
+const int RECORD_COLUMNS = 50;      //The number of columns of the data table (to add more record slots, you will need to change this number and also add the appropriate amount of zeros to "dipRecords")
+
+unsigned long experimentStart = 0;  //When the Experiment began
+unsigned long dipStart = 0;         //When a dip began
+unsigned long dipEnd = 0;           //When a dip ended
+unsigned long hysteresisStart = 0;  //when a hysteresis check began
+
+int triggeredHole = 0;              //The pin that sensed a dip
+int state = 0;                      //The current state of the state machine
 
 //An array to track dip duration of each individual dip
 int dipRecords[RECORD_ROWS][RECORD_COLUMNS] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
