@@ -1,8 +1,8 @@
 
 
-int EXPERIMENT_DURATION = 20; //Time in minutes
-int DIP_SEPERATION = 1000;    //Time in milliseconds
-int DIP_HYSTERESIS = 100;     //Time in milliseconds
+int EXPERIMENT_DURATION = 20; //The amount of time taken before the experiement is concluded (Time in minutes)
+int DIP_SEPERATION = 1000;    //The amount of time taken before a subsiquent dip can be detected (Time in milliseconds)
+int DIP_HYSTERESIS = 100;     //The amount of time a sensor must be active/inactive before a dip is cosidered "dipping" or "stopped dipping" (Time in milliseconds)
 
 unsigned long experimentStart = 0;      //When the Experiment began
 unsigned long dipStart = 0;             //When a dip began
