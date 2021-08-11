@@ -82,6 +82,8 @@ void loop() {
   {
     state = 6;
   }
+
+
   
   if(state == 1) //Scanning for a dip on one of the hole sensors
   { 
@@ -97,6 +99,8 @@ void loop() {
       }
     }
   }
+
+
   
   if(state == 2) //Hysteresis timer on positive edge of dip
   {
@@ -120,6 +124,8 @@ void loop() {
     }
   }
 
+
+
   if(state == 4) //Hysteresis timer on a negative edge of dip
   {
     if((digitalRead(hole[triggeredHole]) == LOW) && (millis() - hysteresisStart > DIP_HYSTERESIS))
@@ -132,6 +138,8 @@ void loop() {
       state = 3;
     }
   }
+
+
 
   if(state == 5) //Save dip duration in dipRecords and start checking holes for dips again
   {
@@ -146,6 +154,8 @@ void loop() {
     delay(DIP_SEPERATION);
     state = 1;
   }
+
+
 
   if(state == 6) //Display the results of the experiment in the serial window.
   {
@@ -168,6 +178,8 @@ void loop() {
     }
     state = 7;
   }
+
+
 
   if(state == 7) //Idle until reset (blink LED)
   {
