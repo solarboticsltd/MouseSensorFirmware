@@ -8,6 +8,8 @@ const int DIP_HYSTERESIS = 500;     //The amount of time a sensor must be active
 
 
 
+
+
 const int RECORD_ROWS = 16;         //The number of rows of the data table
 const int RECORD_COLUMNS = 50;      //The number of columns of the data table (to add more record slots, you will need to change this number and also add the appropriate amount of zeros to "dipRecords")
 
@@ -18,6 +20,9 @@ unsigned long hysteresisStart = 0;  //when a hysteresis check began
 
 int triggeredHole = 0;              //The pin that sensed a dip
 int state = 0;                      //The current state of the state machine
+
+//An array containing the pins used for the hole sensors
+int hole[16] = {13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 24, 26, 28, 30};
 
 //An array to track dip duration of each individual dip
 int dipRecords[RECORD_ROWS][RECORD_COLUMNS] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -37,8 +42,8 @@ int dipRecords[RECORD_ROWS][RECORD_COLUMNS] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                                               {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                               {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}; 
 
-//An array containing the pins used for the hole sensors
-int hole[16] = {13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 24, 26, 28, 30};
+
+
 
 
 //Run once to setup the arduino
@@ -60,11 +65,16 @@ void setup() {
   Serial.println("Nicole Larsen - Hole Poke Experiment");
   Serial.println("");
   Serial.println("Beginning Experiment");
+  Serial.println("");
   delay(2000);
 
   experimentStart = millis();
   state = 1;
 }
+
+
+
+
 
 void loop() {
 
