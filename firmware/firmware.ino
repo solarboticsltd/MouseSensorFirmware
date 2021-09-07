@@ -40,7 +40,7 @@ int dipRecords[RECORD_ROWS][RECORD_COLUMNS] = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 
 //An array containing the pins used for the hole sensors
-int hole[16] = {13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 24, 26, 28, 30};
+int hole[16] = {12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 23, 24, 26, 28, 30};
 
 
 //Run once to setup the arduino
